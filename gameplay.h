@@ -16,17 +16,17 @@ int gameplay()
     }
     glfwMakeContextCurrent(window);
     if (glewInit() != GLEW_OK) {
-        std::cerr << "B³¹d inicjalizacji GLEW!" << std::endl;
+        std::cerr << "BÂ³Â¹d inicjalizacji GLEW!" << std::endl;
         return -1;
     }
 
     gracz Dawid;
     sceneria scena(1.f, -1.f, -1.f, 1.f, 0.f, 10.f);
-    scena.load_scene("pod³oga.jpg","dó³");
+    scena.load_scene("podÂ³oga.jpg","dÃ³Â³");
     scena.load_scene("mao.jpg", "lewo");
-    scena.load_scene("mao.jpg","t³o");
+    scena.load_scene("mao.jpg","tÂ³o");
     scena.load_scene("mao.jpg","prawo");
-    scena.load_scene("sufit.jpg", "góra");
+    scena.load_scene("sufit.jpg", "gÃ³ra");
     tiniest_obj_loader obiekt_3D;
     obiekt_3D.load_obj("grizzly.obj");
 
@@ -42,9 +42,9 @@ int gameplay()
         set_fov();
         scena.bind_scene("prawo");
         scena.bind_scene("lewo");
-        scena.bind_scene("t³o");
-        scena.bind_scene("dó³");
-        scena.bind_scene("góra");
+        scena.bind_scene("tÂ³o");
+        scena.bind_scene("dÃ³Â³");
+        scena.bind_scene("gÃ³ra");
         //scena.bind_plain_scene(); 
 
         glPushMatrix();
@@ -90,15 +90,3 @@ int exit()
     }
     return exit(); 
 }
-
-/* if (Patryk != nullptr) {  // Sprawdzenie, czy obiekt Patryk istnieje
-      if (Patryk->Z1 > -1.f) {
-          Patryk->rysuj();
-          Patryk->ruch(0.0005f);
-          Patryk->kolizja();
-      }
-      else {
-          delete Patryk;  // Usuniêcie obiektu Patryk, gdy nie jest ju¿ potrzebny
-          Patryk = nullptr;  // Ustawienie wskaŸnika na nullptr, aby unikn¹æ dostêpu do usuniêtego obiektu
-      }
-  }*/// dynamiczna alokacja i usuwanie obiektu patryk w petli while
