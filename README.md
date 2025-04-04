@@ -1,5 +1,5 @@
 # OpenGL_C++
-projekty z użyciem OpenGL napisane w C++
+opengl C++ projects
 
-to mój największy projekt w opengl:
+3d game:
 https://github.com/Nejwid/OpenGL_Cpp/tree/Fruit-Ninja-3D
