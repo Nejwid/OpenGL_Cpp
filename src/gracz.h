@@ -1,6 +1,5 @@
 #pragma once
-class Player
-{
+class Player{  // singleton class that manages player movement
 private:
 	float player_x1;
 	float player_x2;
