@@ -4,30 +4,24 @@
 #include <cmath>
 #include "zmienne.h"
 
-void Player::RenderPlayer(float speed)
-{
+void Player::RenderPlayer(float speed){
 	if (flaga == 0)
 		MovePlayer(speed);
-	else if (flaga == 1)
-	{
+	else if (flaga == 1){
 		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS ||
-			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
+			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
 			player_z1 = player_z1 - 0.0005f;
 			player_z2 = player_z2 - 0.0005f;
 		}
 	}
-	else if (flaga == 2)
-	{
+	else if (flaga == 2){
 		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS ||
-			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
+			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
 			player_z1 = player_z1 + 0.0005f;
 			player_z2 = player_z2 + 0.0005f;
 		}
 	}
-	else if (flaga == 3)
-	{
+	else if (flaga == 3){
 		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS ||
 			glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
@@ -35,29 +29,23 @@ void Player::RenderPlayer(float speed)
 			player_x2 = player_x2 + 0.0001f;
 		}
 	}
-	else if (flaga == 4)
-	{
+	else if (flaga == 4){
 		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS ||
-			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
+			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
 			player_x1 = player_x1 - 0.0001f;
 			player_x2 = player_x2 - 0.0001f;
 		}
 	}
-	else if (flaga == 5)
-	{
+	else if (flaga == 5){
 		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS ||
-			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		{
+			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
 			player_y1 = player_y1 - 0.0001f;
 			player_y2 = player_y2 - 0.0001f;
 		}
 	}
-	else if (flaga == 6)
-	{
+	else if (flaga == 6){
 		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS ||
-			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
+			glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
 			player_y1 = player_y1 + 0.0001f;
 			player_y2 = player_y2 + 0.0001f;
 		}
@@ -71,58 +59,54 @@ void Player::RenderPlayer(float speed)
 
 	glVertex3f(player_x2, player_y2, player_z1); // lewy dolny
 	glVertex3f(player_x1, player_y2, player_z1);  // prawy dolny
-	glVertex3f(player_x1, player_y1, player_z1);  // prawy górny
-	glVertex3f(player_x2, player_y1, player_z1); // lewy górny
+	glVertex3f(player_x1, player_y1, player_z1);  // prawy gÃ³rny
+	glVertex3f(player_x2, player_y1, player_z1); // lewy gÃ³rny
 
-	// Tylna œciana
+	// Tylna Å“ciana
 	glVertex3f(player_x2, player_y2, player_z2); // lewy dolny
-	glVertex3f(player_x2, player_y1, player_z2); // lewy górny
-	glVertex3f(player_x1, player_y1, player_z2);  // prawy górny
+	glVertex3f(player_x2, player_y1, player_z2); // lewy gÃ³rny
+	glVertex3f(player_x1, player_y1, player_z2);  // prawy gÃ³rny
 	glVertex3f(player_x1, player_y2, player_z2);  // prawy dolny
 
-	// Lewa œciana
+	// Lewa Å“ciana
 	glVertex3f(player_x2, player_y2, player_z2); // przednia dolna
-	glVertex3f(player_x2, player_y2, player_z1); // przednia górna
-	glVertex3f(player_x2, player_y1, player_z1); // tylna górna
+	glVertex3f(player_x2, player_y2, player_z1); // przednia gÃ³rna
+	glVertex3f(player_x2, player_y1, player_z1); // tylna gÃ³rna
 	glVertex3f(player_x2, player_y1, player_z2); // tylna dolna
 
-	// Prawa œciana
+	// Prawa Å“ciana
 	glVertex3f(player_x1, player_y2, player_z2); // przednia dolna
-	glVertex3f(player_x1, player_y1, player_z2);  // przednia górna
-	glVertex3f(player_x1, player_y1, player_z1);  // tylna górna
+	glVertex3f(player_x1, player_y1, player_z2);  // przednia gÃ³rna
+	glVertex3f(player_x1, player_y1, player_z1);  // tylna gÃ³rna
 	glVertex3f(player_x1, player_y2, player_z1);  // tylna dolna
 
-	// Górna œciana
-	glVertex3f(player_x2, player_y1, player_z2); // lewy przód
-	glVertex3f(player_x2, player_y1, player_z1); // lewy ty³
-	glVertex3f(player_x1, player_y1, player_z1);  // prawy ty³
-	glVertex3f(player_x1, player_y1, player_z2);  // prawy przód
+	// GÃ³rna Å“ciana
+	glVertex3f(player_x2, player_y1, player_z2); // lewy przÃ³d
+	glVertex3f(player_x2, player_y1, player_z1); // lewy tyÂ³
+	glVertex3f(player_x1, player_y1, player_z1);  // prawy tyÂ³
+	glVertex3f(player_x1, player_y1, player_z2);  // prawy przÃ³d
 
-	// Dolna œciana
-	glVertex3f(player_x2, player_y2, player_z2); // lewy przód
-	glVertex3f(player_x1, player_y2, player_z2);  // prawy przód
-	glVertex3f(player_x1, player_y2, player_z1);  // prawy ty³
-	glVertex3f(player_x2, player_y2, player_z1); // lewy ty³ 
+	// Dolna Å“ciana
+	glVertex3f(player_x2, player_y2, player_z2); // lewy przÃ³d
+	glVertex3f(player_x1, player_y2, player_z2);  // prawy przÃ³d
+	glVertex3f(player_x1, player_y2, player_z1);  // prawy tyÂ³
+	glVertex3f(player_x2, player_y2, player_z1); // lewy tyÂ³ 
 
 	glEnd();
 	glPopMatrix();
 
 }
 
-void Player::MovePlayer(float speed)
-{
+void Player::MovePlayer(float speed){
 	if (player_x2 > -0.9f && glfwGetKey(window, GLFW_KEY_LEFT) != GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		{
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS){
 			player_x1 = player_x1 - speed;
 			player_x2 = player_x2 - speed;
 		}
 	}
 
-	if (player_x1 < 0.9f && glfwGetKey(window, GLFW_KEY_RIGHT) != GLFW_PRESS)
-	{
-		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		{
+	if (player_x1 < 0.9f && glfwGetKey(window, GLFW_KEY_RIGHT) != GLFW_PRESS){
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
 			player_x1 = player_x1 + speed;
 			player_x2 = player_x2 + speed;
 		}
