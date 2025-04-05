@@ -9,9 +9,8 @@
 using namespace::std;
 string Login;
 
-//konfiguracja tabeli login/wynik
-int przypisanie_rekordÛw(const char* login)
-{
+//login/score database config
+int przypisanie_rekord√≥w(const char* login){
 	sqlite3* baza_danych;
 	char* error_message = nullptr;
 	int rc;
@@ -24,18 +23,18 @@ int przypisanie_rekordÛw(const char* login)
 	sqlite3_stmt* stmt; //uchwyt na zapytanie :)
 	rc = sqlite3_prepare_v2(baza_danych, zapytanie, -1, &stmt, nullptr);
 	if (rc != SQLITE_OK) {
-		std::cerr << "B≥πd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_close(baza_danych);
 		return 1;
 	}
 	int n = 0;
-	// Wstawienie wartoúci do zapytania
+	// Wstawienie warto≈õci do zapytania
 	sqlite3_bind_text(stmt, 1, login, -1, SQLITE_STATIC);
 	sqlite3_bind_int(stmt, 2, n);
 
 	rc = sqlite3_step(stmt);
 	if (rc != SQLITE_DONE) {
-		std::cerr << "B≥πd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(baza_danych);
 		return 1;
@@ -47,7 +46,7 @@ int przypisanie_rekordÛw(const char* login)
 }
 
 
-//----------------------------------------------------------------// LOGOWANIE
+//----------------------------------------------------------------// logging in
 int pobierz_wynik(const char* login) {
 	sqlite3* db;
 	sqlite3_stmt* stmt;
@@ -57,7 +56,7 @@ int pobierz_wynik(const char* login) {
 	// Otwieranie bazy danych
 	rc = sqlite3_open("baza1", &db);
 	if (rc != SQLITE_OK) {
-		std::cerr << "Nie moøna otworzyÊ bazy danych: " << sqlite3_errmsg(db) << std::endl;
+		std::cerr << "Nie mo≈ºna otworzyƒá bazy danych: " << sqlite3_errmsg(db) << std::endl;
 		return wynik;
 	}
 
@@ -65,35 +64,35 @@ int pobierz_wynik(const char* login) {
 	const char* zapytanie = "SELECT wynik FROM wyniki WHERE login = ?;";
 	rc = sqlite3_prepare_v2(db, zapytanie, -1, &stmt, 0);
 	if (rc != SQLITE_OK) {
-		std::cerr << "Nie uda≥o siÍ przygotowaÊ zapytania: " << sqlite3_errmsg(db) << std::endl;
+		std::cerr << "Nie uda≈Ço siƒô przygotowaƒá zapytania: " << sqlite3_errmsg(db) << std::endl;
 		sqlite3_close(db);
 		return wynik;
 	}
 
-	// Bindowanie wartoúci login do zapytania
+	// Bindowanie warto≈õci login do zapytania
 	sqlite3_bind_text(stmt, 1, login, -1, SQLITE_STATIC);
 
 	// Wykonanie zapytania
 	rc = sqlite3_step(stmt);
 	if (rc == SQLITE_ROW) {
-		// Pobranie wartoúci wyniku
+		// Pobranie warto≈õci wyniku
 		wynik = sqlite3_column_int(stmt, 0);
 	}
 	else {
 		std::cerr << "Nie znaleziono rekordu dla danego loginu" << std::endl;
 	}
 
-	// ZakoÒczenie pracy z zapytaniem i zamkniÍcie bazy danych
+	// Zako≈Ñczenie pracy z zapytaniem i zamkniƒôcie bazy danych
 	sqlite3_finalize(stmt);
 	sqlite3_close(db);
 
 	return wynik;
 }
-string konwersja_na_string(const char* s≥owo)
+string konwersja_na_string(const char* s≈Çowo)
 {
-	return string(s≥owo);
+	return string(s≈Çowo);
 }
-int sprawdzenie_poprawnoúci_loginu(string login)
+int sprawdzenie_poprawno≈õci_loginu(string login)
 {
 	sqlite3* baza_danych;
 	sqlite3_stmt* stmt;
@@ -101,34 +100,34 @@ int sprawdzenie_poprawnoúci_loginu(string login)
 
 	rc = sqlite3_open("baza1", &baza_danych);
 	if (rc != SQLITE_OK) {
-		std::cerr << "Nie moøna otworzyÊ bazy danych: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "Nie mo≈ºna otworzyƒá bazy danych: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_close(baza_danych);
 		return 1;
 	}
 
-	// Zapytanie SQL sprawdzajπce, czy istnieje dana nazwa
+	// Zapytanie SQL sprawdzajƒÖce, czy istnieje dana nazwa
 	const char* zapytanie = "SELECT COUNT(*) FROM uzytkownicy WHERE login = ?;";
 
 	rc = sqlite3_prepare_v2(baza_danych, zapytanie, -1, &stmt, nullptr);
 	if (rc != SQLITE_OK) {
-		std::cerr << "B≥πd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_close(baza_danych);
 		return 1;
 	}
 
-	// Wstawienie wartoúci do zapytania
+	// Wstawienie warto≈õci do zapytania
 	sqlite3_bind_text(stmt, 1, login.c_str(), -1, SQLITE_STATIC);
 
 	// Wykonanie zapytania
 	rc = sqlite3_step(stmt);
 	if (rc == SQLITE_ROW) {
-		// Pobranie wyniku zapytania (liczba rekordÛw)
+		// Pobranie wyniku zapytania (liczba rekord√≥w)
 		int liczba_rekordow = sqlite3_column_int(stmt, 0);
-		// Jeúli liczba rekordÛw jest wiÍksza niø 0, to nazwa istnieje w bazie
+		// Je≈õli liczba rekord√≥w jest wiƒôksza ni≈º 0, to nazwa istnieje w bazie
 
 		if (bool istnieje = (liczba_rekordow > 0)) {
 
-			// Zwolnienie zasobÛw i zamkniÍcie bazy danych
+			// Zwolnienie zasob√≥w i zamkniƒôcie bazy danych
 			sqlite3_finalize(stmt);
 			sqlite3_close(baza_danych);
 
@@ -137,7 +136,7 @@ int sprawdzenie_poprawnoúci_loginu(string login)
 		else return 0;
 	}
 	else {
-		std::cerr << "B≥πd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(baza_danych);
 		return 1;
@@ -147,7 +146,7 @@ int sprawdzenie_poprawnoúci_loginu(string login)
 	return 1;
 
 }
-int sprawdü_has≥o(string login, string has≥o)
+int sprawd≈∫_has≈Ço(string login, string has≈Ço)
 {
 	sqlite3* baza_danych;
 	sqlite3_stmt* stmt;
@@ -155,29 +154,29 @@ int sprawdü_has≥o(string login, string has≥o)
 
 	rc = sqlite3_open("baza1", &baza_danych);
 	if (rc != SQLITE_OK) {
-		std::cerr << "Nie moøna otworzyÊ bazy danych: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "Nie mo≈ºna otworzyƒá bazy danych: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_close(baza_danych);
 		return 1;
 	}
 
-	// Zapytanie SQL sprawdzajπce, czy istnieje dana nazwa
+	// Zapytanie SQL sprawdzajƒÖce, czy istnieje dana nazwa
 	const char* zapytanie = "SELECT password FROM uzytkownicy WHERE login = ?;";
 
 	rc = sqlite3_prepare_v2(baza_danych, zapytanie, -1, &stmt, nullptr);
 	if (rc != SQLITE_OK) {
-		std::cerr << "B≥πd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_close(baza_danych);
 		return 1;
 	}
 
-	// Wstawienie wartoúci do zapytania
+	// Wstawienie warto≈õci do zapytania
 	sqlite3_bind_text(stmt, 1, login.c_str(), -1, SQLITE_STATIC);
 
 	// Wykonanie zapytania
 	rc = sqlite3_step(stmt);
 	if (rc == SQLITE_ROW) {
 		const unsigned char* haslo = sqlite3_column_text(stmt, 0);
-		if (string(reinterpret_cast<const char*>(haslo)) == has≥o)
+		if (string(reinterpret_cast<const char*>(haslo)) == has≈Ço)
 		{
 			cout << "poprawne haslo\n";
 			sqlite3_finalize(stmt);
@@ -195,25 +194,25 @@ int sprawdü_has≥o(string login, string has≥o)
 		std::cerr << "Nie znaleziono rekordu dla danego loginu" << std::endl;
 	}
 	else {
-		std::cerr << "B≥πd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 	}
 	sqlite3_finalize(stmt);
 	sqlite3_close(baza_danych);
 	return 1;
 }
-//LOGOWANIE
+//log in function
 int zaloguj()
 {
 	system("cls");
 	string login;
-	string has≥o;
+	string has≈Ço;
 	cout << "podaj login: ";
 	cin >> login; Login = login;
-	if (sprawdzenie_poprawnoúci_loginu(login) == 2)
+	if (sprawdzenie_poprawno≈õci_loginu(login) == 2)
 	{
 		cout << "\nwpisz haslo: ";
-		cin >> has≥o;
-		if (sprawdü_has≥o(login, has≥o) == 1)
+		cin >> has≈Ço;
+		if (sprawd≈∫_has≈Ço(login, has≈Ço) == 1)
 		{
 			return zaloguj();
 		}
@@ -232,7 +231,7 @@ int zaloguj()
 	}
 }
 
-//----------------------------------------------------------------// TWORZENIE KONTA
+//----------------------------------------------------------------// creating an account
 int sprawdzenie_czy_login_istnieje(string login)
 {
 	sqlite3* baza_danych;
@@ -241,34 +240,34 @@ int sprawdzenie_czy_login_istnieje(string login)
 
 	rc = sqlite3_open("baza1", &baza_danych);
 	if (rc != SQLITE_OK) {
-		std::cerr << "Nie moøna otworzyÊ bazy danych: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "Nie mo≈ºna otworzyƒá bazy danych: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_close(baza_danych);
 		return 1;
 	}
 
-	// Zapytanie SQL sprawdzajπce, czy istnieje dana nazwa
+	// Zapytanie SQL sprawdzajƒÖce, czy istnieje dana nazwa
 	const char* zapytanie = "SELECT COUNT(*) FROM uzytkownicy WHERE login = ?;";
 
 	rc = sqlite3_prepare_v2(baza_danych, zapytanie, -1, &stmt, nullptr);
 	if (rc != SQLITE_OK) {
-		std::cerr << "B≥πd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_close(baza_danych);
 		return 1;
 	}
 
-	// Wstawienie wartoúci do zapytania
+	// Wstawienie warto≈õci do zapytania
 	sqlite3_bind_text(stmt, 1, login.c_str(), -1, SQLITE_STATIC);
 
 	// Wykonanie zapytania
 	rc = sqlite3_step(stmt);
 	if (rc == SQLITE_ROW) {
-		// Pobranie wyniku zapytania (liczba rekordÛw)
+		// Pobranie wyniku zapytania (liczba rekord√≥w)
 		int liczba_rekordow = sqlite3_column_int(stmt, 0);
-		// Jeúli liczba rekordÛw jest wiÍksza niø 0, to nazwa istnieje w bazie
+		// Je≈õli liczba rekord√≥w jest wiƒôksza ni≈º 0, to nazwa istnieje w bazie
 
 		if (bool istnieje = (liczba_rekordow > 0)) {
 
-			// Zwolnienie zasobÛw i zamkniÍcie bazy danych
+			// Zwolnienie zasob√≥w i zamkniƒôcie bazy danych
 			sqlite3_finalize(stmt);
 			sqlite3_close(baza_danych);
 
@@ -282,14 +281,14 @@ int sprawdzenie_czy_login_istnieje(string login)
 		}
 	}
 	else {
-		std::cerr << "B≥πd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(baza_danych);
 		return 1;
 	}
 	return 1;
 }
-string ustawienie_loginu()
+string ustawienie_loginu() // set login
 {
 	cout << "podaj nowy login od 5 do 10 znakow: ";
 	string login;
@@ -303,26 +302,26 @@ string ustawienie_loginu()
 	}
 	return ustawienie_loginu();
 }
-string ustawienie_has≥a()
+string ustawienie_has≈Ça() // set password
 {
 	cout << "podaj haslo od 5 do 10 znakow tym znak specjalny: ";
-	string has≥o;
-	cin >> has≥o;
-	if (has≥o.length() > 4)
+	string has≈Ço;
+	cin >> has≈Ço;
+	if (has≈Ço.length() > 4)
 	{
-		if (has≥o.length() < 10)
+		if (has≈Ço.length() < 10)
 		{
-			for (const auto iterator : has≥o)
+			for (const auto iterator : has≈Ço)
 			{
 				if (iterator == '!' || iterator == '@' || iterator == '#' || iterator == '$'
 					|| iterator == '%' || iterator == '^' || iterator == '&' || iterator == '*')
-					return has≥o;
+					return has≈Ço;
 			}
 		}
 	}
-	return ustawienie_has≥a();
+	return ustawienie_has≈Ça();
 }
-int zapisanie_has≥a(const char* login, const char* has≥o)
+int zapisanie_has≈Ça(const char* login, const char* has≈Ço) // bind password to login
 {
 	sqlite3* baza_danych;
 	char* error_message = nullptr;
@@ -336,18 +335,18 @@ int zapisanie_has≥a(const char* login, const char* has≥o)
 	sqlite3_stmt* stmt; //uchwyt na zapytanie :)
 	rc = sqlite3_prepare_v2(baza_danych, zapytanie, -1, &stmt, nullptr);
 	if (rc != SQLITE_OK) {
-		std::cerr << "B≥πd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd przygotowywania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_close(baza_danych);
 		return 1;
 	}
 
-	// Wstawienie wartoúci do zapytania
+	// Wstawienie warto≈õci do zapytania
 	sqlite3_bind_text(stmt, 1, login, -1, SQLITE_STATIC);
-	sqlite3_bind_text(stmt, 2, has≥o, -1, SQLITE_STATIC);
+	sqlite3_bind_text(stmt, 2, has≈Ço, -1, SQLITE_STATIC);
 
 	rc = sqlite3_step(stmt);
 	if (rc != SQLITE_DONE) {
-		std::cerr << "B≥πd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
+		std::cerr << "B≈ÇƒÖd wykonania zapytania: " << sqlite3_errmsg(baza_danych) << std::endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(baza_danych);
 		return 1;
@@ -356,34 +355,34 @@ int zapisanie_has≥a(const char* login, const char* has≥o)
 	sqlite3_finalize(stmt);
 	sqlite3_close(baza_danych);
 
-	//utworzenie korespondujπcej tabeli login/wynik
-	przypisanie_rekordÛw(login);
+	//utworzenie korespondujƒÖcej tabeli login/wynik
+	przypisanie_rekord√≥w(login);
 
 	return 0;
 }
-int user_co_zrobiÊ()
+int user_co_zrobiƒá()
 {
 	system("cls");
 	cout << "\nzarejestrowano. powrot(1)";
 	char user_response_2;
 	cin >> user_response_2;
 	if (user_response_2 == '1') return 0;
-	return user_co_zrobiÊ();
+	return user_co_zrobiƒá();
 }
-//REJESTRACJA
+//creating an account function
 int zarejestruj()
 {
 	system("cls");
 	string loginn = ustawienie_loginu();
-	string has≥oo = ustawienie_has≥a();
+	string has≈Çoo = ustawienie_has≈Ça();
 	const char* login = loginn.c_str(); 
-	const char* has≥o = has≥oo.c_str();
-	zapisanie_has≥a(login, has≥o);
-	if (user_co_zrobiÊ() == 1)return 1;
+	const char* has≈Ço = has≈Çoo.c_str();
+	zapisanie_has≈Ça(login, has≈Ço);
+	if (user_co_zrobiƒá() == 1)return 1;
 	return 0;
 }
 
-
+// funtion that runs all previous ones
 int exe()
 {
 	system("cls");
@@ -435,10 +434,10 @@ int SaveScore(int wynik)
 	sqlite3_stmt* stmt;
 	int rc;
 
-	// OtwÛrz bazÍ danych w trybie zapisu
+	// Otw√≥rz bazƒô danych w trybie zapisu
 	rc = sqlite3_open_v2("baza1", &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
 	if (rc != SQLITE_OK) {
-		std::cerr << "Nie moøna otworzyÊ bazy danych: " << sqlite3_errmsg(db) << std::endl;
+		std::cerr << "Nie mo≈ºna otworzyƒá bazy danych: " << sqlite3_errmsg(db) << std::endl;
 		return 1;
 	}
 
@@ -446,26 +445,26 @@ int SaveScore(int wynik)
 	const char* updateQuery = "UPDATE wyniki SET wynik = ? WHERE login = ?;";
 	rc = sqlite3_prepare_v2(db, updateQuery, -1, &stmt, nullptr);
 	if (rc != SQLITE_OK) {
-		std::cerr << "Nie uda≥o siÍ przygotowaÊ zapytania: " << sqlite3_errmsg(db) << std::endl;
+		std::cerr << "Nie uda≈Ço siƒô przygotowaƒá zapytania: " << sqlite3_errmsg(db) << std::endl;
 		sqlite3_close(db);
 		return 1;
 	}
 
-	// Zwiπø wartoúÊ ca≥kowitπ wyniku (4) z zapytaniem
+	// ZwiƒÖ≈º warto≈õƒá ca≈ÇkowitƒÖ wyniku (4) z zapytaniem
 	sqlite3_bind_int(stmt, 1, wynik);
-	// Zwiπø wartoúÊ tekstowπ loginu ("kuzik") z zapytaniem
+	// ZwiƒÖ≈º warto≈õƒá tekstowƒÖ loginu ("kuzik") z zapytaniem
 	sqlite3_bind_text(stmt, 2, Login.c_str(), -1, SQLITE_STATIC);
 
 	// Wykonaj zapytanie
 	rc = sqlite3_step(stmt);
 	if (rc != SQLITE_DONE) {
-		std::cerr << "B≥πd podczas wykonywania zapytania: " << sqlite3_errmsg(db) << std::endl;
+		std::cerr << "B≈ÇƒÖd podczas wykonywania zapytania: " << sqlite3_errmsg(db) << std::endl;
 	}
 	else {
 		std::cout << "wynik zostal zapisany" << std::endl;
 	}
 
-	// ZakoÒczenie pracy z zapytaniem i zamkniÍcie bazy danych
+	// Zako≈Ñczenie pracy z zapytaniem i zamkniƒôcie bazy danych
 	sqlite3_finalize(stmt);
 	sqlite3_close(db);
 
