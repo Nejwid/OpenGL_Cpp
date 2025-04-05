@@ -6,7 +6,7 @@
 #include <memory>
 
 
-int Gameplay(){
+int Gameplay(){ // game logic, events, objects
     if (!glfwInit()) {
         return -1;
     }
@@ -22,18 +22,18 @@ int Gameplay(){
     }
     glfwMakeContextCurrent(window);
     if (glewInit() != GLEW_OK) {
-        std::cerr << "B��d inicjalizacji GLEW!" << std::endl;
+        std::cerr << "B³¹d inicjalizacji GLEW!" << std::endl;
         return -1;
     }
 
     Player& player = Player::getInstance();
     ObjGenerator& obj_generator = ObjGenerator::getInstance();
     Scenery scena(1.f, -1.f, -1.f, 1.f, 0.f, 10.f);
-    scena.LoadScene("pod�oga.jpg","d�");
+    scena.LoadScene("pod³oga.jpg","dó³");
     scena.LoadScene("mao.jpg", "lewo");
-    scena.LoadScene("mao.jpg","t�o");
+    scena.LoadScene("mao.jpg","t³o");
     scena.LoadScene("mao.jpg","prawo");
-    scena.LoadScene("sufit.jpg", "g�ra");
+    scena.LoadScene("sufit.jpg", "góra");
     unique_ptr<tiniest_obj_loader> obiekt_3D = make_unique<tiniest_obj_loader>();
     obiekt_3D->load_obj("grizzly.obj");
 
@@ -49,9 +49,9 @@ int Gameplay(){
         set_fov();
         scena.BindScene("prawo");
         scena.BindScene("lewo");
-        scena.BindScene("t�o");
-        scena.BindScene("d�");
-        scena.BindScene("g�ra");
+        scena.BindScene("t³o");
+        scena.BindScene("dó³");
+        scena.BindScene("góra");
         //scena.bind_plain_scene(); 
 
         glPushMatrix();
@@ -79,7 +79,7 @@ int Gameplay(){
     return 0;
 }
 
-int Exit(){
+int Exit(){ // checks if to exit
     cout << "\n\naby zagrac ponownie nacisnij 1\naby wyjsc nacisnij x\n";
     char user_response_3;
     cin >> user_response_3;
