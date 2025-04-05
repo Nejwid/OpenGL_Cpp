@@ -2,6 +2,8 @@
 #include "sqlite-amalgamation-3450300/sqlite3.h"
 #include <iostream>
 
+// sqlite database manager
+
 int SQ_config(const char* nazwa)
 {
 	sqlite3* baza_danych;
@@ -22,7 +24,7 @@ int SQ_config(const char* nazwa)
 	rc = sqlite3_exec(baza_danych, zapytanie, nullptr, nullptr, &error_message);
 	if (rc != 0)
 	{
-		std::cerr << "B³¹d SQL: " << error_message << std::endl;
+		std::cerr << "BÂ³Â¹d SQL: " << error_message << std::endl;
 		sqlite3_free(error_message);
 	}
 
@@ -35,17 +37,17 @@ int delete_tab(const char* nazwa)
 {
 	sqlite3* baza_danych;
 	char* error_message = nullptr;
-	int rc; //return code - aktualny kod stanu bazy - inny ni¿ 0 wskazuje na b³¹d
+	int rc; //return code - aktualny kod stanu bazy - inny niÂ¿ 0 wskazuje na bÂ³Â¹d
 
 	rc = sqlite3_open(nazwa, &baza_danych);
 	if (rc != 0) { std::cerr << sqlite3_errmsg(baza_danych); return 11; }
 
-	const char* zapytanie = " DROP TABLE IF EXISTS u¿ytkownicy";
+	const char* zapytanie = " DROP TABLE IF EXISTS uÂ¿ytkownicy";
 
 	rc = sqlite3_exec(baza_danych, zapytanie, nullptr, nullptr, &error_message);
 	if (rc != 0)
 	{
-		std::cerr << "B³¹d SQL: " << error_message << std::endl;
+		std::cerr << "BÂ³Â¹d SQL: " << error_message << std::endl;
 		sqlite3_free(error_message);
 	}
 
@@ -56,7 +58,7 @@ int delete_tab(const char* nazwa)
 int delete_base(const char* nazwa)
 {
 	if (std::remove(nazwa) != 0) {
-		std::cerr << "B³¹d podczas usuwania bazy danych" << std::endl;
+		std::cerr << "BÂ³Â¹d podczas usuwania bazy danych" << std::endl;
 		return 1;
 	}
 	return 0;
